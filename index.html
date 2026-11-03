@@ -15,6 +15,8 @@ async function enter(){const m=$('msg');m.style.color='#24425a';m.textContent='�
  try{const r=await fetch('/api/auth?a=login',{method:'POST',body:JSON.stringify({code:$('code').value})});
  const d=await r.json();if(d.ok)location.href='home.html';else{m.style.color='#d9534f';m.textContent=d.msg}}
  catch{m.textContent='تعذر الاتصال، حاول لاحقًا'}}
+$('kp').innerHTML='1234567890abcdefghijklmnopqrstuvwxyz'.split('').map(c=>`<button type="button" class="k">${c}</button>`).join('')+'<button type="button" class="k" id="bk">⌫</button>';
+$('kp').onclick=e=>{const b=e.target.closest('.k');if(!b)return;const i=$('code');i.value=b.id==='bk'?i.value.slice(0,-1):i.value+b.textContent};
 $('go').onclick=enter;$('code').onkeydown=e=>e.key==='Enter'&&enter();
 fetch('/api/auth?a=me').then(r=>r.json()).then(d=>d.ok&&(location.href='home.html')).catch(()=>{});
 </script></body></html>
