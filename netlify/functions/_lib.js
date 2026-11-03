@@ -1,0 +1,14 @@
+const c=require('crypto');
+const {createClient}=require('@supabase/supabase-js');
+exports.sb=()=>createClient(process.env.SUPABASE_URL,process.env.SUPABASE_SERVICE_KEY,{auth:{persistSession:false}});
+exports.hash=(code,salt=c.randomBytes(16).toString('hex'))=>salt+':'+c.scryptSync(code,salt,32).toString('hex');
+exports.verify=(code,s)=>{const[salt,h]=s.split(':');const a=Buffer.from(h,'hex'),b=c.scryptSync(code,salt,32);return a.length===b.length&&c.timingSafeEqual(a,b)};
+const mac=d=>c.createHmac('sha256',process.env.SESSION_SECRET).update(d).digest('base64url');
+exports.sign=p=>{const d=Buffer.from(JSON.stringify(p)).toString('base64url');return d+'.'+mac(d)};
+exports.read=t=>{try{const[d,s]=t.split('.');if(s!==mac(d))return null;const p=JSON.parse(Buffer.from(d,'base64url'));return p.exp>Date.now()?p:null}catch{return null}};
+exports.token=e=>((e.headers.cookie||'').match(/bm_session=([^;]+)/)||[])[1];
+exports.json=(code,obj,h={})=>({statusCode:code,headers:{'Content-Type':'application/json',...h},body:JSON.stringify(obj)});
+exports.parentOk=async e=>{const t=exports.token(e),p=t&&exports.read(t);if(!p)return false;
+ const{data}=await exports.sb().from('settings').select('value').eq('key','parent_code').single();
+ return !!data&&data.value.split(':')[0]===p.v};
+exports.isAdmin=async e=>{const s=exports.sb(),{data:u}=await s.auth.getUser((e.headers.authorization||'').replace('Bearer ',''));if(!u||!u.user)return false;const{data}=await s.from('admin_users').select('id').eq('id',u.user.id).maybeSingle();return !!data};

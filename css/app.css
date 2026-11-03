@@ -1,0 +1,25 @@
+body.app{display:block;padding:0}
+header{background:#fff;box-shadow:0 2px 12px #4fb3e822;position:sticky;top:0;z-index:5;padding:10px 14px}
+.top{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.top h2{margin:0;color:var(--sky);font-size:1.2rem}
+nav{display:flex;gap:6px;overflow-x:auto;padding:8px 0 2px}
+nav a{white-space:nowrap;padding:8px 12px;border-radius:14px;background:#eaf6fd;color:#24425a;text-decoration:none;font-weight:700;font-size:.9rem}
+nav a.on{background:var(--sky);color:#fff}
+main{max-width:1000px;margin:0 auto;padding:16px}
+.hero{background:linear-gradient(135deg,#d9f0fc,#e4f8ea);border-radius:28px;padding:22px;text-align:center;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.c{background:#fff;border-radius:22px;padding:16px;box-shadow:0 6px 18px #4fb3e81f;text-align:right}
+.c h3{margin:8px 0}.b{background:var(--mint);border-radius:10px;padding:2px 10px;font-size:.8rem}
+.imp{background:var(--sun)}.c.imp{border:2px solid #f5b800}
+a.btn,button.btn{display:inline-block;width:auto;margin:6px 4px 0 0;padding:9px 14px;border-radius:14px;background:var(--sky);color:#fff;text-decoration:none;font-weight:700;font-size:.9rem}
+a.s{background:var(--mint);color:#24425a}a.w{background:#25d366}
+.sec{text-align:center;text-decoration:none;color:#24425a;font-weight:700}.sec span{font-size:2.2rem;display:block}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.bar input,.bar select{width:auto;flex:1;min-width:120px;padding:10px;font-size:1rem}
+.o{display:block;padding:8px;margin:4px 0;background:#f2f9fe;border-radius:12px}
+.chip{display:inline-block;margin:4px;padding:8px 12px;border-radius:12px;background:var(--sun);cursor:pointer;font-weight:700}
+#line{min-height:44px;border:2px dashed #cfe9f7;border-radius:12px;padding:4px}
+.fb{margin-top:8px;font-weight:700}.big{font-size:2.6rem;margin:10px}
+.mc{width:100%;aspect-ratio:1;font-size:2rem;margin:0;padding:0;background:var(--pink)}
+.gm .grid{grid-template-columns:repeat(4,1fr)}
+#np{position:absolute;left:10px;top:56px;background:#fff;border-radius:16px;padding:12px;box-shadow:0 6px 20px #0002;width:min(300px,90vw)}
+.empty{text-align:center;color:#7a93a6;padding:30px}footer{text-align:center;padding:20px;color:#7a93a6}

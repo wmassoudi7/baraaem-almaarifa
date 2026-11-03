@@ -1,0 +1,19 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>براعم المعرفة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"></head><body>
+<main class="card"><div style="font-size:3rem">🌱📚</div><h1>براعم المعرفة</h1>
+<p class="tag">نتعلم، نكتشف، ونبدع معًا</p>
+<p>أهلًا بالتلاميذ وأوليائهم! اكتبوا رمز القسم للدخول</p>
+<input id="code" type="text" dir="ltr" placeholder="رمز الدخول" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus>
+<button id="go">دخول</button><div id="msg"></div>
+<small>المعلمة المؤسسة: وئام مسعودي</small></main>
+<script>
+const $=id=>document.getElementById(id);
+async function enter(){const m=$('msg');m.style.color='#24425a';m.textContent='لحظة...';
+ try{const r=await fetch('/api/auth?a=login',{method:'POST',body:JSON.stringify({code:$('code').value})});
+ const d=await r.json();if(d.ok)location.href='home.html';else{m.style.color='#d9534f';m.textContent=d.msg}}
+ catch{m.textContent='تعذر الاتصال، حاول لاحقًا'}}
+$('go').onclick=enter;$('code').onkeydown=e=>e.key==='Enter'&&enter();
+fetch('/api/auth?a=me').then(r=>r.json()).then(d=>d.ok&&(location.href='home.html')).catch(()=>{});
+</script></body></html>

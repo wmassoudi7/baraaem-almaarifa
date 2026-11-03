@@ -1,0 +1,71 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>لوحة المعلمة — براعم المعرفة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/app.css">
+<style>textarea,select{width:100%;padding:10px;font:inherit;border:2px solid #cfe9f7;border-radius:14px}label{display:block;text-align:right;margin:10px 0 4px;font-weight:700}input[type=checkbox]{width:auto}#m{position:sticky;top:0;padding:10px;text-align:center;font-weight:700;z-index:9}.ok{background:#d8f5e3;color:#1f7a45}.bad{background:#fde0e0;color:#b32d2d}.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #eef}</style></head>
+<body class="app"><div id="m"></div>
+<div id="login" class="card" hidden style="margin:30px auto"><h1>🔐 لوحة المعلمة</h1><input id="em" type="email" placeholder="البريد الإلكتروني" style="margin-bottom:10px"><input id="pw" type="password" placeholder="كلمة المرور"><button id="li">دخول</button></div>
+<div id="panel" hidden><header><div class="top"><h2>لوحة وئام مسعودي</h2><div><a class="btn s" href="home.html">الموقع</a><button class="btn" id="lo" style="width:auto;margin:0">خروج</button></div></div><nav id="tabs"></nav></header><main id="box"></main></div>
+<datalist id="subj"></datalist>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/dist/umd/supabase.min.js"></script>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let sb,cur='homework',editId=null;
+const SUBJ=['اللغة العربية','الرياضيات','الإيقاظ العلمي','اللغة الفرنسية','التربية الإسلامية'];
+$('#subj').innerHTML=SUBJ.map(s=>`<option>${s}</option>`).join('');
+const TY=[['mcq','اختيار من متعدد'],['tf','صح أو خطأ'],['fill','إكمال الفراغ'],['order','ترتيب الكلمات'],['match','ربط بين العناصر']];
+const F={
+ homework:{n:'📝 الواجبات',req:['title','subject'],f:[['title','عنوان الواجب','text'],['subject','المادة','subject'],['description','وصف المطلوب','area'],['file_url','صورة أو PDF','file'],['lesson_id','الدرس المرتبط','lesson'],['status','الحالة','select',[['جديد','جديد'],['قيد المراجعة','قيد المراجعة'],['منتهي','منتهي']]]]},
+ lessons:{n:'📚 الدروس',req:['title','subject'],f:[['title','عنوان الدرس','text'],['subject','المادة','subject'],['axis','المحور','text'],['body','الشرح','area'],['image_url','صورة','file'],['pdf_url','ملف PDF','file'],['video_url','رابط فيديو (اختياري)','text']]},
+ exercises:{n:'✏️ التمارين',req:['question','type'],f:[['lesson_id','الدرس','lesson'],['type','نوع التمرين','select',TY],['question','السؤال','area'],['options','الخيارات مفصولة بـ ، (للربط: قط=ميو، كلب=هاو)','text'],['answer','الإجابة الصحيحة (لصح/خطأ اكتب: صح أو خطأ)','text']]},
+ games:{n:'🎮 الألعاب',req:['title','url'],f:[['title','اسم اللعبة','text'],['kind','النوع (مثال: رياضيات)','text'],['url','رابط اللعبة: https://... أو games/اسم-الملف.html','text']]},
+ videos:{n:'🎬 الفيديوهات',req:['title','url'],f:[['title','عنوان الفيديو','text'],['subject','المادة','subject'],['description','وصف','area'],['url','رابط الفيديو https:// (مثل يوتيوب غير مدرج)','text']]},
+ announcements:{n:'📢 الإعلانات',req:['title','body'],f:[['title','عنوان الإعلان','text'],['body','النص','area'],['category','التصنيف','text'],['image_url','صورة (اختياري)','file'],['important','إعلان مهم ⭐','check']]},
+ notifications:{n:'🔔 الإشعارات',req:[],f:[]},code:{n:'🔑 رمز الدخول',req:[],f:[]}};
+function msg(t,ok=true){const m=$('#m');m.textContent=t;m.className=ok?'ok':'bad';setTimeout(()=>{m.textContent='';m.className=''},6000)}
+(async()=>{const c=await(await fetch('/api/config')).json();sb=supabase.createClient(c.url,c.key);const{data}=await sb.auth.getSession();data.session?start():$('#login').hidden=false})();
+$('#li').onclick=async()=>{const{error}=await sb.auth.signInWithPassword({email:$('#em').value.trim(),password:$('#pw').value});error?msg('البريد أو كلمة المرور غير صحيحة',false):start()};
+$('#lo').onclick=async()=>{await sb.auth.signOut();location.reload()};
+async function start(){const{data:u}=await sb.auth.getUser();const{data:a}=await sb.from('admin_users').select('id').eq('id',u.user.id).maybeSingle();
+ if(!a){await sb.auth.signOut();msg('هذا الحساب ليس حساب المعلمة',false);$('#login').hidden=false;return}
+ $('#login').hidden=true;$('#panel').hidden=false;
+ $('#tabs').innerHTML=Object.entries(F).map(([k,v])=>`<a href="#" data-k="${k}">${v.n}</a>`).join('');
+ document.querySelectorAll('#tabs a').forEach(a=>a.onclick=e=>{e.preventDefault();cur=a.dataset.k;editId=null;show()});show()}
+async function show(){document.querySelectorAll('#tabs a').forEach(a=>a.classList.toggle('on',a.dataset.k===cur));const box=$('#box');
+ if(cur==='code'){box.innerHTML='<div class="c"><h3>تغيير رمز دخول الأولياء والتلاميذ</h3><input id="nc" placeholder="الرمز الجديد (6 أحرف على الأقل)"><button class="btn" id="sc">حفظ الرمز</button></div>';
+  $('#sc').onclick=async()=>{const t=(await sb.auth.getSession()).data.session.access_token;const r=await fetch('/api/set-code',{method:'POST',headers:{Authorization:'Bearer '+t},body:JSON.stringify({code:$('#nc').value})});const d=await r.json();msg(d.msg||'تعذر الحفظ',d.ok);if(d.ok)$('#nc').value=''};return}
+ const cfg=F[cur];let L=[];if(cfg.f.some(f=>f[2]==='lesson'))L=(await sb.from('lessons').select('id,title').order('title')).data||[];
+ const fld=([k,l,t,o])=>{const id='f_'+k;let h;
+  if(t==='area')h=`<textarea id="${id}" rows="3"></textarea>`;else if(t==='subject')h=`<input id="${id}" list="subj" placeholder="اختر أو اكتب مادة جديدة">`;
+  else if(t==='file')h=`<input id="${id}" type="file" accept="image/*,application/pdf">`;else if(t==='check')return `<label><input id="${id}" type="checkbox"> ${l}</label>`;
+  else if(t==='select')h=`<select id="${id}">${o.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('')}</select>`;
+  else if(t==='lesson')h=`<select id="${id}"><option value="">— بدون —</option>${L.map(x=>`<option value="${x.id}">${esc(x.title)}</option>`).join('')}</select>`;else h=`<input id="${id}">`;
+  return `<label>${l}</label>${h}`};
+ const{data:rows,error}=await sb.from(cur).select('*').order('created_at',{ascending:false});
+ box.innerHTML=(cfg.f.length?`<div class="c"><h3>${editId?'✏️ تعديل':'➕ إضافة'}</h3>${cfg.f.map(fld).join('')}<button class="btn" id="sv">حفظ</button> ${editId?'<button class="btn s" id="cn">إلغاء</button>':''}</div>`:'')+
+  `<div class="c" style="margin-top:14px"><h3>المحتوى الحالي</h3>${error?'تعذر التحميل':(rows||[]).map(r=>`<div class="row"><span>${esc(r.title||r.question)}</span><span>${cur==='notifications'?`<small>${esc(r.email_status)}</small> <button class="btn" data-m="${r.id}">📧 إرسال بريد</button>`:''}${cfg.f.length?`<button class="btn s" data-e="${r.id}">تعديل</button>`:''}<button class="btn" style="background:#e55" data-d="${r.id}">حذف</button></span></div>`).join('')||'<div class="empty">لا شيء بعد</div>'}</div>`;
+ if(cfg.f.length)$('#sv').onclick=save;if($('#cn'))$('#cn').onclick=()=>{editId=null;show()};
+ box.querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>edit(b.dataset.e));
+ box.querySelectorAll('[data-m]').forEach(b=>b.onclick=async()=>{b.disabled=true;const t=(await sb.auth.getSession()).data.session.access_token;try{const r=await fetch('/api/send-notify',{method:'POST',headers:{Authorization:'Bearer '+t},body:JSON.stringify({id:+b.dataset.m})});const d=await r.json();msg(d.msg||'تعذر الإرسال',d.ok)}catch{msg('تعذر الاتصال',false)}show()});
+ box.querySelectorAll('[data-d]').forEach(b=>b.onclick=async()=>{if(!confirm('هل أنتِ متأكدة من الحذف؟'))return;const{error}=await sb.from(cur).delete().eq('id',b.dataset.d);error?msg('تعذر الحذف',false):(msg('تم الحذف ✅'),show())})}
+async function edit(id){const{data:r}=await sb.from(cur).select('*').eq('id',id).single();editId=id;await show();
+ for(const[k,,t]of F[cur].f){const e=$('#f_'+k);if(!e||t==='file'||k==='options'||k==='answer')continue;t==='check'?e.checked=!!r[k]:e.value=r[k]??''}
+ if(cur==='exercises'){const d=r.data||{};$('#f_options').value=r.type==='mcq'?(d.options||[]).join('، '):r.type==='match'?(d.pairs||[]).map(p=>p.join('=')).join('، '):'';$('#f_answer').value=r.type==='tf'?(d.answer?'صح':'خطأ'):(d.answer??'')}
+ scrollTo(0,0);msg('وضع التعديل — عدّلي ثم احفظي')}
+async function save(){const cfg=F[cur],row={},btn=$('#sv');
+ for(const[k,l,t]of cfg.f){const e=$('#f_'+k);
+  if(t==='file'){const f=e.files[0];if(f){if(f.size>10e6)return msg('الملف كبير جدًا (الحد 10MB)',false);const p=`${Date.now()}-${Math.random().toString(36).slice(2,7)}.${f.name.split('.').pop()}`;const{error}=await sb.storage.from('files').upload(p,f);if(error)return msg('فشل رفع الملف',false);row[k]=p}}
+  else if(t==='check')row[k]=e.checked;else if(k==='lesson_id')row[k]=e.value||null;else row[k]=e.value.trim()||null}
+ for(const k of cfg.req)if(!row[k])return msg('من فضلك أكملي الحقول المطلوبة',false);
+ if(cur==='exercises'){const o=(row.options||'').split(/[،,]/).map(s=>s.trim()).filter(Boolean),a=row.answer;delete row.options;delete row.answer;
+  if(row.type!=='match'&&!a)return msg('اكتبي الإجابة الصحيحة',false);
+  if(row.type==='mcq'){if(o.length<2||!o.includes(a))return msg('اكتبي خيارين على الأقل، والإجابة يجب أن تكون ضمنها',false);row.data={options:o,answer:a}}
+  else if(row.type==='tf'){if(a!=='صح'&&a!=='خطأ')return msg('اكتبي: صح أو خطأ',false);row.data={answer:a==='صح'}}
+  else if(row.type==='match'){const p=o.map(x=>x.split('=').map(s=>s.trim()));if(p.length<2||p.some(x=>x.length!=2||!x[0]||!x[1]))return msg('اكتبي أزواجًا مثل: قط=ميو، كلب=هاو',false);row.data={pairs:p}}
+  else row.data={answer:a}}
+ if((cur==='games'||cur==='videos')&&row.url&&!(cur==='videos'?/^https:\/\//:/^(https:\/\/|games\/)/).test(row.url))return msg('الرابط يجب أن يبدأ بـ https://'+(cur==='games'?' أو games/':''),false);
+ const{data,error}=editId?await sb.from(cur).update(row).eq('id',editId):await sb.from(cur).insert(row).select();
+ if(error)return msg('تعذر الحفظ: '+error.message,false);
+ if(!editId&&(cur==='homework'||(cur==='announcements'&&row.important))){const{error:e2}=await sb.from('notifications').insert({title:(cur==='homework'?'واجب جديد: ':'إعلان مهم: ')+row.title,ref_type:cur,ref_id:data[0].id});if(e2)return msg('حُفظ المحتوى لكن تعذر إنشاء الإشعار',false)}
+ editId=null;msg('تم الحفظ بنجاح ✅');show()}
+</script></body></html>
