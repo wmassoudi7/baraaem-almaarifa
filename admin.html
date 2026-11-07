@@ -7,7 +7,7 @@
 <div id="login" class="card" hidden style="margin:30px auto"><h1>🔐 لوحة المعلمة</h1><input id="em" type="email" placeholder="البريد الإلكتروني" style="margin-bottom:10px"><input id="pw" type="password" placeholder="كلمة المرور"><button id="li">دخول</button></div>
 <div id="panel" hidden><header><div class="top"><h2>لوحة وئام مسعودي</h2><div><a class="btn s" href="home.html">الموقع</a><button class="btn" id="lo" style="width:auto;margin:0">خروج</button></div></div><nav id="tabs"></nav></header><main id="box"></main></div>
 <datalist id="subj"></datalist>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/dist/umd/supabase.min.js"></script>
+<script src="js/supabase.min.js"></script>
 <script>
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let sb,cur='homework',editId=null;

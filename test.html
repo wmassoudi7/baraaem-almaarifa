@@ -1,0 +1,19 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>اختبار</title></head>
+<body style="font-family:sans-serif;padding:20px;font-size:18px;line-height:2">
+<h2>صفحة اختبار</h2>
+<p id="r1">1) جافاسكربت: ❌ لا تعمل</p>
+<p id="r2">2) الاتصال بالخادم: ⏳</p>
+<p id="r3">3) ملف supabase المحلي: ⏳</p>
+<p>4) اكتبي هنا: <input id="t" style="font-size:18px;padding:6px" placeholder="اكتبي أي شيء"></p>
+<p id="r4">الذي كتبتِه: —</p>
+<p>5) <button id="b" style="font-size:18px;padding:8px 16px">اضغطي هنا</button> <span id="r5"></span></p>
+<script>
+const g=i=>document.getElementById(i);
+g('r1').textContent='1) جافاسكربت: ✅ تعمل';
+g('t').oninput=()=>g('r4').textContent='الذي كتبتِه: '+g('t').value;
+g('b').onclick=()=>g('r5').textContent='✅ الضغط يعمل';
+fetch('/api/auth?a=me').then(r=>r.text()).then(t=>g('r2').textContent='2) الاتصال بالخادم: ✅ '+t).catch(e=>g('r2').textContent='2) الاتصال بالخادم: ❌ '+e);
+const s=document.createElement('script');s.src='js/supabase.min.js';
+s.onload=()=>g('r3').textContent='3) ملف supabase المحلي: '+(window.supabase?'✅ يعمل':'⚠️ حُمّل دون الكائن');
+s.onerror=()=>g('r3').textContent='3) ملف supabase المحلي: ❌ لم يُحمَّل';document.head.appendChild(s);
+</script></body></html>

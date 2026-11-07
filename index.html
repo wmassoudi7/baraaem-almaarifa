@@ -1,90 +1,18 @@
-
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>براعم المعرفة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        .k{width:auto!important;min-width:36px;margin:3px!important;padding:8px 9px!important;background:#eaf6fd!important;color:#24425a!important;font-size:1rem}
-    </style>
-</head>
-<body>
-    <main class="card">
-        <div style="font-size:3rem">🌱📚</div>
-        <h1>براعم المعرفة</h1>
-        <p class="tag">نتعلم، نكتشف، ونبدع معًا</p>
-        <p>أهلًا بالتلاميذ وأوليائهم! اكتبوا رمز القسم للدخول</p>
-        
-        <form method="post" action="/api/auth?a=form">
-            <input id="code" name="code" type="text" dir="ltr" placeholder="رمز الدخول" autocomplete="off" autocapitalize="off" spellcheck="false">
-            <div id="kp" style="display:flex;flex-wrap:wrap;justify-content:center;direction:ltr;margin-top:12px"></div>
-            <button type="submit" id="go">دخول</button>
-        </form>
-        
-        <small>المعلمة المؤسسة: وئام مسعودي</small>
-    </main>
-
-    <script>
-        const $=id=>document.getElementById(id);
-        
-        // بناء لوحة المفاتيح
-        $('kp').innerHTML='1234567890abcdefghijklmnopqrstuvwxyz'.split('').map(c=>`<button type="button" class="k">${c}</button>`).join('')+'<button type="button" class="k" id="bk">⌫</button>';
-        
-        // التفاعل مع لوحة المفاتيح
-        $('kp').onclick=e=>{
-            const b=e.target.closest('.k');
-            if(!b)return;
-            const i=$('code');
-            i.value=b.id==='bk'?i.value.slice(0,-1):i.value+b.textContent;
-        };
-
-        // التحقق من وجود جلسة نشطة مسبقاً عند فتح الصفحة
-        fetch('/api/auth?a=me')
-            .then(r=>r.json())
-            .then(d=>d.ok&&(location.href='home.html'))
-            .catch(()=>{});
-
-        // معالجة إرسال النموذج (تسجيل الدخول بالرمز)
-        document.querySelector('form').onsubmit = async (e) => {
-            e.preventDefault(); // منع الإرسال الافتراضي الذي يسبب إعادة تحميل الصفحة
-            
-            const codeInput = $('code').value.trim();
-            const btn = $('go');
-            
-            if (!codeInput) return; // عدم الإرسال إذا كان الحقل فارغاً
-            
-            btn.disabled = true;
-            btn.textContent = 'جاري التحقق...';
-
-            try {
-                const response = await fetch('/api/auth?a=form', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `code=${encodeURIComponent(codeInput)}`
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                     // توجيه الزائر للصفحة الرئيسية إذا كان الرمز صحيحاً
-                     location.href = 'home.html';
-                } else {
-                     // إظهار رسالة خطأ إذا كان الرمز خاطئاً
-                     alert(data.error || 'رمز الدخول غير صحيح، حاولي مرة أخرى.');
-                     btn.disabled = false;
-                     btn.textContent = 'دخول';
-                }
-            } catch (err) {
-                alert('حدث خطأ في الاتصال بالخادم، يرجى المحاولة لاحقاً.');
-                btn.disabled = false;
-                btn.textContent = 'دخول';
-            }
-        };
-    </script>
-</body>
-</html>
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>براعم المعرفة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"><style>.k{width:auto!important;min-width:36px;margin:3px!important;padding:8px 9px!important;background:#eaf6fd!important;color:#24425a!important;font-size:1rem}</style></head><body>
+<main class="card"><div style="font-size:3rem">🌱📚</div><h1>براعم المعرفة</h1>
+<p class="tag">نتعلم، نكتشف، ونبدع معًا</p>
+<p>أهلًا بالتلاميذ وأوليائهم! اكتبوا رمز القسم للدخول</p>
+<form method="post" action="/api/auth?a=form">
+<input id="code" name="code" type="text" dir="ltr" placeholder="رمز الدخول" autocomplete="off" autocapitalize="off" spellcheck="false">
+<div id="kp" style="display:flex;flex-wrap:wrap;justify-content:center;direction:ltr;margin-top:12px"></div>
+<button type="submit" id="go">دخول</button></form>
+<small>المعلمة المؤسسة: وئام مسعودي</small></main>
+<script>
+const $=id=>document.getElementById(id);
+$('kp').innerHTML='1234567890abcdefghijklmnopqrstuvwxyz'.split('').map(c=>`<button type="button" class="k">${c}</button>`).join('')+'<button type="button" class="k" id="bk">⌫</button>';
+$('kp').onclick=e=>{const b=e.target.closest('.k');if(!b)return;const i=$('code');i.value=b.id==='bk'?i.value.slice(0,-1):i.value+b.textContent};
+fetch('/api/auth?a=me').then(r=>r.json()).then(d=>d.ok&&(location.href='home.html')).catch(()=>{});
+</script></body></html>
