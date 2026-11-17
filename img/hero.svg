@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="طفلان يقرآن كتابًا وسط الطبيعة">
+  <!-- sun -->
+  <g transform="translate(548 66)">
+    <g stroke="#ffd25e" stroke-width="6" stroke-linecap="round">
+      <path d="M0-52v-14M0 52v14M-52 0h-14M52 0h14M-37-37l-10-10M37 37l10 10M-37 37l-10 10M37-37l10-10"/>
+    </g>
+    <circle r="36" fill="#ffd25e"/>
+    <circle cx="-11" cy="-4" r="3.4" fill="#24425a"/><circle cx="11" cy="-4" r="3.4" fill="#24425a"/>
+    <path d="M-10 9q10 9 20 0" fill="none" stroke="#24425a" stroke-width="3.2" stroke-linecap="round"/>
+    <circle cx="-20" cy="6" r="5" fill="#ff9fb8" opacity=".7"/><circle cx="20" cy="6" r="5" fill="#ff9fb8" opacity=".7"/>
+  </g>
+  <!-- clouds -->
+  <g fill="#fff">
+    <g transform="translate(96 62)"><ellipse cx="0" cy="12" rx="52" ry="18"/><circle cx="-18" cy="0" r="20"/><circle cx="14" cy="-6" r="26"/></g>
+    <g transform="translate(400 38) scale(.7)"><ellipse cx="0" cy="12" rx="52" ry="18"/><circle cx="-18" cy="0" r="20"/><circle cx="14" cy="-6" r="26"/></g>
+  </g>
+  <!-- hills -->
+  <path d="M0 300V226Q130 168 270 214T640 200V300Z" fill="#8fd9a8"/>
+  <path d="M0 300V256Q170 214 330 250T640 238V300Z" fill="#6fc98f"/>
+  <!-- big sprout (left) -->
+  <g transform="translate(78 250)">
+    <path d="M0 0C-2-34 4-62 0-92" fill="none" stroke="#3f9b63" stroke-width="9" stroke-linecap="round"/>
+    <path d="M0-70C-44-84-58-58-52-34 -22-30-4-46 0-70Z" fill="#4fb36f"/>
+    <path d="M0-92C40-120 70-98 66-70 34-62 6-72 0-92Z" fill="#6fd08c"/>
+    <path d="M-4-60Q-26-62-42-44M4-92Q30-92 52-78" fill="none" stroke="#3f9b63" stroke-width="2.5" stroke-linecap="round" opacity=".6"/>
+  </g>
+  <!-- small flowers -->
+  <g>
+    <g transform="translate(160 262)"><path d="M0 0v-22" stroke="#3f9b63" stroke-width="3"/><g fill="#ff9fb8"><circle cx="0" cy="-30" r="6"/><circle cx="8" cy="-24" r="6"/><circle cx="-8" cy="-24" r="6"/><circle cx="5" cy="-17" r="0"/></g><circle cy="-25" r="5" fill="#ffd25e"/></g>
+    <g transform="translate(494 266)"><path d="M0 0v-26" stroke="#3f9b63" stroke-width="3"/><g fill="#fff"><circle cy="-36" r="6"/><circle cx="9" cy="-29" r="6"/><circle cx="-9" cy="-29" r="6"/><circle cx="5" cy="-22" r="6"/><circle cx="-5" cy="-22" r="6"/></g><circle cy="-29" r="5" fill="#e8873a"/></g>
+  </g>
+  <!-- girl -->
+  <g>
+    <path d="M232 214v-52a28 28 0 0 1 56 0v52Z" fill="#ff9fb8"/>
+    <rect x="250" y="136" width="20" height="14" rx="6" fill="#f6c9a2"/>
+    <circle cx="260" cy="118" r="30" fill="#f6c9a2"/>
+    <path d="M230 116a30 30 0 0 1 60 0c-12-4-22-14-26-26-8 16-20 24-34 26Z" fill="#5a3a2a"/>
+    <circle cx="226" cy="124" r="11" fill="#5a3a2a"/><circle cx="294" cy="124" r="11" fill="#5a3a2a"/>
+    <circle cx="230" cy="110" r="6" fill="#e8873a"/><circle cx="290" cy="110" r="6" fill="#e8873a"/>
+    <circle cx="249" cy="121" r="3.3" fill="#24425a"/><circle cx="271" cy="121" r="3.3" fill="#24425a"/>
+    <path d="M251 132q9 8 18 0" fill="none" stroke="#24425a" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="241" cy="129" r="5" fill="#ff9fb8" opacity=".6"/><circle cx="279" cy="129" r="5" fill="#ff9fb8" opacity=".6"/>
+  </g>
+  <!-- boy -->
+  <g>
+    <path d="M352 214v-52a28 28 0 0 1 56 0v52Z" fill="#4fb3e8"/>
+    <rect x="370" y="136" width="20" height="14" rx="6" fill="#e9b88c"/>
+    <circle cx="380" cy="118" r="30" fill="#e9b88c"/>
+    <path d="M350 114c2-22 18-32 34-30 14 1 26 12 26 30-10-6-20-12-26-20-8 12-20 18-34 20Z" fill="#3b2a20"/>
+    <circle cx="369" cy="121" r="3.3" fill="#24425a"/><circle cx="391" cy="121" r="3.3" fill="#24425a"/>
+    <path d="M371 132q9 8 18 0" fill="none" stroke="#24425a" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="361" cy="129" r="5" fill="#ff9fb8" opacity=".6"/><circle cx="399" cy="129" r="5" fill="#ff9fb8" opacity=".6"/>
+  </g>
+  <!-- open book -->
+  <g>
+    <path d="M214 200Q268 186 320 206Q372 186 426 200V268Q372 254 320 274Q268 254 214 268Z" fill="#e8873a"/>
+    <path d="M222 198Q270 186 320 204V266Q270 250 222 262Z" fill="#fff"/>
+    <path d="M418 198Q370 186 320 204V266Q370 250 418 262Z" fill="#fffaf0"/>
+    <g fill="none" stroke="#cfe9f7" stroke-width="3" stroke-linecap="round">
+      <path d="M236 212Q268 204 304 218M236 226Q268 218 304 232M236 240Q268 232 304 246"/>
+      <path d="M336 218Q372 204 404 212M336 232Q372 218 404 226M336 246Q372 232 404 240"/>
+    </g>
+    <path d="M320 204V266" stroke="#e8873a" stroke-width="3"/>
+    <g fill="#f6c9a2"><circle cx="228" cy="214" r="9"/></g><g fill="#e9b88c"><circle cx="412" cy="214" r="9"/></g>
+  </g>
+  <!-- floating letters -->
+  <g font-family="Cairo,Tahoma,Arial,sans-serif" font-weight="700" text-anchor="middle">
+    <g transform="translate(172 130) rotate(-10)"><circle r="23" fill="#fff"/><circle r="23" fill="none" stroke="#4fb3e8" stroke-width="3"/><g transform="rotate(40)"><rect x="-4.5" y="-14" width="9" height="22" rx="1.5" fill="#ffd25e"/><path d="M-4.5 8h9l-4.5 9Z" fill="#f6c9a2"/><path d="M-1.6 14.5h3.2L0 17.5Z" fill="#24425a"/><rect x="-4.5" y="-19" width="9" height="6" rx="2" fill="#ff9fb8"/></g></g>
+    <g transform="translate(468 150) rotate(8)"><circle r="23" fill="#fff"/><circle r="23" fill="none" stroke="#ff9fb8" stroke-width="3"/><text y="9" font-size="24" fill="#24425a">3+2</text></g>
+    <g transform="translate(330 70) rotate(4)"><circle r="21" fill="#fff"/><circle r="21" fill="none" stroke="#8fd9a8" stroke-width="3"/><path d="M0 9C-14 0-13-11-6-11 -2-11 0-8 0-6 0-8 2-11 6-11 13-11 14 0 0 9Z" fill="#ff9fb8"/></g>
+  </g>
+  <!-- stars -->
+  <g fill="#ffd25e">
+    <path d="M210 70l4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1Z"/>
+    <path d="M440 96l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1Z"/>
+    <path d="M30 150l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1Z"/>
+  </g>
+</svg>

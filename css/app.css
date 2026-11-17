@@ -23,3 +23,6 @@ a.s{background:var(--mint);color:#24425a}a.w{background:#25d366}
 .gm .grid{grid-template-columns:repeat(4,1fr)}
 #np{position:absolute;left:10px;top:56px;background:#fff;border-radius:16px;padding:12px;box-shadow:0 6px 20px #0002;width:min(300px,90vw)}
 .empty{text-align:center;color:#7a93a6;padding:30px}footer{text-align:center;padding:20px;color:#7a93a6}
+.logo{width:34px;height:34px;vertical-align:middle;margin-inline-start:4px}
+.hero .art{width:100%;max-width:560px;border-radius:20px;margin-bottom:14px}
+.empty img{display:block;width:130px;margin:0 auto 8px}
