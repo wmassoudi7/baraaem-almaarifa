@@ -1,5 +1,5 @@
 const L=require('./_lib');
-const OK=['videos','games','announcements','notifications'];
+const OK=['videos','games','announcements','notifications','resources'];
 exports.handler=async e=>{
  if(!await L.parentOk(e))return L.json(401,{ok:false});
  const t=(e.queryStringParameters||{}).t;if(!OK.includes(t))return L.json(400,{ok:false});
